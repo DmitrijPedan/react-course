@@ -15,6 +15,13 @@
     align-items: center;
 }
 
+.post span {
+    display: inline-block;
+    margin-right: 10px;
+    color: darkblue;
+    font-weight: bold;
+}
+
 .post-enter {
     transform: translateX(-300px);
 }

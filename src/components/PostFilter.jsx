@@ -6,7 +6,7 @@ const PostFilter = ({filter, setFilter}) => {
 
   const options = [
     {name: 'By name', value: 'title'},
-    {name: 'By description', value: 'description'},
+    {name: 'By description', value: 'body'},
   ]
 
   return (

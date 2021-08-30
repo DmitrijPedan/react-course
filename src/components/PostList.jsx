@@ -5,7 +5,7 @@ import {CSSTransition, TransitionGroup} from "react-transition-group";
 const PostList = ({title, posts, remove }) => {
   return (
     <div>
-      <h1 style={{textAlign: 'center'}}>{posts.length ? title : 'Post not found'}</h1>
+      <h1 style={{textAlign: 'center'}}>{posts.length ? title : 'Posts not found'}</h1>
       <TransitionGroup>
         {posts.map((post, i) => {
           return <CSSTransition

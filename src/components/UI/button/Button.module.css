@@ -5,6 +5,7 @@
     border: 1px solid transparent;
     transition: all .3s;
     cursor: pointer;
+    margin: 5px;
 }
 
 .btn:hover {
