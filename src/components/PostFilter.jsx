@@ -2,7 +2,13 @@ import React from 'react';
 import MyInput from "./UI/input/MyInput";
 import MySelect from "./UI/select/MySelect";
 
-const PostFilter = ({filter, setFilter, options}) => {
+const PostFilter = ({filter, setFilter}) => {
+
+  const options = [
+    {name: 'By name', value: 'title'},
+    {name: 'By description', value: 'description'},
+  ]
+
   return (
     <div>
       <MyInput
