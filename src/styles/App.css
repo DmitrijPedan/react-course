@@ -15,6 +15,22 @@
     align-items: center;
 }
 
+.post-enter {
+    transform: translateX(-300px);
+}
+.post-enter-active {
+    transform: translateX(0);
+    transition: all 200ms ease-in;
+}
+.post-exit {
+    opacity: 1;
+}
+.post-exit-active {
+    transform: translateX(300%);
+    transition: all 500ms ease-out;
+}
+
+
 .form {
     padding: 30px;
     max-width: 300px;
