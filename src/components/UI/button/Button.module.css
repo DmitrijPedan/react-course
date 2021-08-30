@@ -1,0 +1,18 @@
+.btn {
+    padding: 10px 25px;
+    color: white;
+    background-color: #d78c00;
+    border: 1px solid transparent;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #ffa600;
+    border-color: white;
+}
+
+.btn:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
