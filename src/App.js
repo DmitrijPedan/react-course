@@ -10,6 +10,7 @@ import PostService from "./api/PostService";
 import Loader from "./components/UI/loader/Loader";
 import {useFetching} from "./hooks/useFetching";
 import {getPagesCount} from "./utils/pages";
+import Pagination from "./components/UI/pagination/Pagination";
 
 function App() {
 
@@ -24,14 +25,19 @@ function App() {
     setPosts(response.data);
     const totalCount = response.headers['x-total-count'];
     setTotalPages(getPagesCount(totalCount, limit));
-    console.log(totalPages)
   })
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.search);
 
   useEffect(() => {
     fetchPosts()
-  }, [])
+  }, [page])
+
+  const changePage = (p) => {
+    // fetchPosts(limit, p)
+    setPage(p);
+  }
+
 
   const addNewPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -66,6 +72,11 @@ function App() {
           create={addNewPost}
         />
       </Modal>
+      <Pagination
+        current={page}
+        total={totalPages}
+        changePage={changePage}
+      />
     </div>
   );
 
