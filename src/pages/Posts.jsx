@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import '../styles/App.css'
 import PostList from "../components/PostList";
 import PostForm from "../components/PostForm";
@@ -20,9 +20,13 @@ function Posts() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState({sort: '', search: ''});
   const [visible, setVisible] = useState(false);
+  const [autoload, setAutoload] = useState(false);
+  const lastElement = useRef();
+  const observer = useRef();
+
   const [fetchPosts, loading, error] = useFetching(async () => {
     const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
+    setPosts([...posts, ...response.data]);
     const totalCount = response.headers['x-total-count'];
     setTotalPages(getPagesCount(totalCount, limit));
   })
@@ -30,14 +34,37 @@ function Posts() {
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.search);
 
   useEffect(() => {
-    fetchPosts()
-  }, [page])
+    if (!autoload) {
+      return;
+    }
+    if (loading) {
+      return;
+    }
+    if (observer.current) {
+      observer.current.disconnect();
+    }
+    const callback = function(entries, observer) {
+      if (entries[0].isIntersecting && page < totalPages) {
+        setPage(page + 1)
+      }
+    };
+    observer.current = new IntersectionObserver(callback);
+    observer.current.observe(lastElement.current);
+  }, [loading]);
 
-  const changePage = (p) => {
-    // fetchPosts(limit, p)
-    setPage(p);
+  useEffect(() => {
+    fetchPosts()
+  }, [page]);
+
+  const enableAutoload = () => {
+    setAutoload(true);
+    setPage(page + 1);
   }
 
+
+  const changePage = (p) => {
+    setPage(p);
+  }
 
   const addNewPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -55,15 +82,24 @@ function Posts() {
         filter={filter}
         setFilter={setFilter}
       />
-      {loading
-        ? <Loader />
-        :  <PostList
-          remove={deletePost}
-          posts={sortedAndSearchedPosts}
-          title="Posts list"
-        >Posts List</PostList>
-      }
+      {loading && <Loader />}
+      <PostList
+        remove={deletePost}
+        posts={sortedAndSearchedPosts}
+        title="Posts list"
+      >Posts List</PostList>
+      <div ref={lastElement}></div>
       {error && <h2>Error {error}</h2>}
+      {!autoload &&
+        <div>
+          <Pagination
+            current={page}
+            total={totalPages}
+            changePage={changePage}
+          />
+          <Button onClick={enableAutoload}>Autoload</Button>
+        </div>
+      }
       <Modal
         visible={visible}
         setVisible={setVisible}
@@ -72,11 +108,6 @@ function Posts() {
           create={addNewPost}
         />
       </Modal>
-      <Pagination
-        current={page}
-        total={totalPages}
-        changePage={changePage}
-      />
     </div>
   );
 
