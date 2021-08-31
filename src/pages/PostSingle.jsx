@@ -18,7 +18,6 @@ const PostSingle = () => {
   const [fetchingComments, commentsLoading, CommentsError] = useFetching(async () => {
     const response = await PostService.getComments(params.id);
     setComments(response.data);
-    console.log(comments)
   })
 
 
