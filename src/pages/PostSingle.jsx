@@ -40,10 +40,11 @@ const PostSingle = () => {
         }
       {commentsLoading
         ? <Loader/>
-        : <PostComments comments={comments}></PostComments>
+        : <PostComments comments={comments}/>
       }
     </div>
   )
+
 };
 
 export default PostSingle;
