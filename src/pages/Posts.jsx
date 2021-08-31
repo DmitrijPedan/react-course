@@ -12,6 +12,7 @@ import {useFetching} from "../hooks/useFetching";
 import {getPagesCount} from "../utils/pages";
 import Pagination from "../components/UI/pagination/Pagination";
 import {useObserver} from "../hooks/useObserver";
+import MySelect from "../components/UI/select/MySelect";
 
 function Posts() {
 
@@ -37,7 +38,7 @@ function Posts() {
 
   useEffect(() => {
     fetchPosts()
-  }, [page]);
+  }, [page, limit]);
 
   const enableAutoload = () => {
     setAutoload(true);
@@ -60,6 +61,17 @@ function Posts() {
 
   return (
     <div className="App">
+      <MySelect
+        value={limit}
+        select={(value) => setLimit(value)}
+        defaultValue="PerPage"
+        options={[
+          {name: '5', value: 5},
+          {name: '10', value: 10},
+          {name: '15', value: 20},
+          {name: 'All', value: -1},
+        ]}
+      />
       <Button onClick={() => setVisible(true)}>Add new post</Button>
       <PostFilter
         filter={filter}
