@@ -8,11 +8,15 @@
     padding: 20px;
     border: 1px solid gray;
     border-radius: 10px;
-    max-width: 500px;
+    max-width: 600px;
     margin: 10px auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.post_btns {
+    display: flex;
 }
 
 .post span {
@@ -53,5 +57,6 @@
 .App {
     padding: 20px;
 }
+
 
 

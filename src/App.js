@@ -1,85 +1,28 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import './styles/App.css'
-import PostList from "./components/PostList";
-import PostForm from "./components/PostForm";
-import PostFilter from "./components/PostFilter";
-import Modal from "./components/UI/modal/Modal";
-import Button from "./components/UI/button/Button";
-import {usePosts} from "./hooks/usePosts";
-import PostService from "./api/PostService";
-import Loader from "./components/UI/loader/Loader";
-import {useFetching} from "./hooks/useFetching";
-import {getPagesCount} from "./utils/pages";
-import Pagination from "./components/UI/pagination/Pagination";
+import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
+import About from "./pages/About";
+import Posts from "./pages/Posts";
+import PostSingle from "./pages/PostSingle";
+import NotFound from "./pages/NotFound";
+import Navbar from "./components/UI/navbar/Navbar";
+
 
 function App() {
 
-  const [posts, setPosts] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState({sort: '', search: ''});
-  const [visible, setVisible] = useState(false);
-  const [fetchPosts, loading, error] = useFetching(async () => {
-    const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
-    const totalCount = response.headers['x-total-count'];
-    setTotalPages(getPagesCount(totalCount, limit));
-  })
-
-  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.search);
-
-  useEffect(() => {
-    fetchPosts()
-  }, [page])
-
-  const changePage = (p) => {
-    // fetchPosts(limit, p)
-    setPage(p);
-  }
-
-
-  const addNewPost = (newPost) => {
-    setPosts([...posts, newPost]);
-    setVisible(false);
-  }
-
-  const deletePost = (id) => {
-    setPosts(posts.filter(p => p.id !== id));
-  }
-
   return (
-    <div className="App">
-      <Button onClick={() => setVisible(true)}>Add new post</Button>
-      <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
-      {loading
-        ? <Loader />
-        :  <PostList
-          remove={deletePost}
-          posts={sortedAndSearchedPosts}
-          title="Posts list"
-        >Posts List</PostList>
-      }
-      {error && <h2>Error {error}</h2>}
-      <Modal
-        visible={visible}
-        setVisible={setVisible}
-      >
-        <PostForm
-          create={addNewPost}
-        />
-      </Modal>
-      <Pagination
-        current={page}
-        total={totalPages}
-        changePage={changePage}
-      />
-    </div>
-  );
+    <BrowserRouter>
+      <Navbar/>
+      <Switch>
+        <Route path="/about"><About/></Route>
+        <Route exact path="/posts"><Posts/></Route>
+        <Route exact path="/posts/:id"><PostSingle/></Route>
+        <Route path="/not-found"><NotFound/></Route>
+        <Redirect to="/not-found"></Redirect>
+      </Switch>
+    </BrowserRouter>
+  )
 
-};
+}
 
 export default App;

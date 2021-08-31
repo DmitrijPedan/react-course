@@ -1,0 +1,29 @@
+.navbar {
+    width: 100%;
+    position: sticky;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: teal;
+}
+
+.links {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.links a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color .3s;
+}
+
+.links a:hover {
+    color: orange;
+    text-decoration: underline;
+}

@@ -1,0 +1,32 @@
+.comments {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.head {
+    font-size: 18px;
+    text-align: center;
+}
+
+.comment {
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin: 10px auto;
+    max-width: 800px;
+    padding: 15px;
+}
+
+.title {
+    text-transform: capitalize;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.body {
+    margin-bottom: 10px;
+}
+
+.author {
+    text-align: right;
+}
